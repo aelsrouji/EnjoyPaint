@@ -44,7 +44,6 @@ public class Paint extends JFrame{
         Box myBox = Box.createHorizontalBox();
         myBox.setBackground(Color.yellow);
         myBox.add(myBrushButton);
-        myBox.add(myBrushButton);
         myBox.add(myEllipseButton);
         myBox.add(myLineButton);
         myBox.add(myFillButton);
@@ -62,6 +61,27 @@ public class Paint extends JFrame{
             }
         });
 
+        myEllipseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("This is Ellipse tool");
+
+            }
+        });
+
+        myFillButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
+
+        myLineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+
+            }
+        });
     }
 
 }
