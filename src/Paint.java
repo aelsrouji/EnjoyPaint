@@ -50,8 +50,17 @@ public class Paint extends JFrame{
         myBox.add(myFillButton);
         paintPanel.add(myBox);
 
+
+
         this.add(paintPanel);
         this.setVisible(true);
+
+        myBrushButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("This button brush");
+            }
+        });
 
     }
 
