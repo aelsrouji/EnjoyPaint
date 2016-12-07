@@ -12,7 +12,7 @@ import javax.swing.border.*;
 
 public class Paint extends JFrame {
 
-    JButton myRectangleButton, myEllipseButton, myLineButton, myStokeButton, myFillButton;
+    JButton myRectangleButton, myEllipseButton, myLineButton, myStokeButton, myFillButton, myEraserButton;
     Color strokeColor = Color.BLACK, fillColor = Color.RED;
 
     public  static void main(String[] args) {
@@ -20,8 +20,6 @@ public class Paint extends JFrame {
         new Paint();
 
         }
-
-
 
     public Dimension getPreferredSize() {
         return new Dimension(500, 500);
@@ -60,23 +58,41 @@ public class Paint extends JFrame {
         ImageIcon imageLine= new ImageIcon(".\\Images\\line.png") ;
         myLineButton.setIcon(imageLine);
 
+        myEraserButton = new JButton();
+        myEraserButton.setSize(50, 50);
+        ImageIcon imageEraser= new ImageIcon(".\\Images\\eraser.png") ;
+        myEraserButton.setIcon(imageEraser);
+
 
         Box myBox = Box.createHorizontalBox();
         myBox.add(myStokeButton);
         myBox.add(myFillButton);
         myBox.add(myRectangleButton);
-
         myBox.add(myEllipseButton);
         myBox.add(myLineButton);
+        myBox.add(myEraserButton);
+
+        Box myDrawingBox = Box.createHorizontalBox();
+        myDrawingBox.add(myEraserButton);
 
 
         paintPanel.add(myBox, BorderLayout.SOUTH);
+
+
+        JPanel drawPanel = new JPanel();
+        drawPanel.add(myDrawingBox,BorderLayout.CENTER);
+
+
         DrawingBoard drawBoard=new DrawingBoard();
         drawBoard.setBackground(Color.BLUE);
         drawBoard.setSize(700,700);
         paintPanel.add(drawBoard, BorderLayout.CENTER);
 
+        drawPanel.add(myEraserButton,BorderLayout.NORTH);
+
         this.add(paintPanel, BorderLayout.SOUTH);
+        this.add(drawPanel, BorderLayout.CENTER);
+
         this.setVisible(true);
 
         myStokeButton.addActionListener(new ActionListener() {
@@ -128,8 +144,6 @@ public class Paint extends JFrame {
             }
         });
     }
-
-
 
 
     public class DrawingBoard extends JComponent {
