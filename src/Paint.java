@@ -8,37 +8,57 @@ import java.awt.event.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-
+import javax.swing.border.*;
 
 public class Paint extends JFrame {
 
     JButton myRectangleButton, myEllipseButton, myLineButton, myStokeButton, myFillButton;
     Color strokeColor = Color.BLACK, fillColor = Color.RED;
 
-
-    public static void main(String[] args) {
-        System.out.println("Welcome to Paint, Enjoy it!");
+    public  static void main(String[] args) {
+        System.out.println("Welcome to Paint, Enjoy it! Implemented By: Vinicus and Ayman");
         new Paint();
 
+        }
+
+
+
+    public Dimension getPreferredSize() {
+        return new Dimension(500, 500);
     }
 
     public Paint(){
 
-        this.setSize(500, 500);
-        this.setTitle("Sumatra Paint");
+        this.setSize(700, 700);
+        this.setTitle("Sumatra Paint By Vini and Ayman - December 2016");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel paintPanel = new JPanel();
-        myRectangleButton = new JButton("Rectangle");
+
+        myRectangleButton = new JButton();
         myRectangleButton.setSize(50, 50);
-        myStokeButton = new JButton("Stoke");
+        ImageIcon imageRectangle= new ImageIcon(".\\Images\\rectangle.png") ;
+        myRectangleButton.setIcon(imageRectangle);
+
+        myStokeButton = new JButton();
         myStokeButton.setSize(50, 50);
-        myFillButton = new JButton("Fill");
+        ImageIcon imageFillColor= new ImageIcon(".\\Images\\fillColor.png") ;
+        myStokeButton.setIcon(imageFillColor);
+
+        myFillButton = new JButton();
         myFillButton.setSize(50, 50);
-        myEllipseButton = new JButton("Ellipse");
+        ImageIcon imageBrush= new ImageIcon(".\\Images\\brush.png") ;
+        myFillButton.setIcon(imageBrush);
+
+        myEllipseButton = new JButton();
         myEllipseButton.setSize(50, 50);
-        myLineButton = new JButton("Line");
+        ImageIcon imageEllipse= new ImageIcon(".\\Images\\circle.png") ;
+        myEllipseButton.setIcon(imageEllipse);
+
+        myLineButton = new JButton();
         myLineButton.setSize(50, 50);
+        ImageIcon imageLine= new ImageIcon(".\\Images\\line.png") ;
+        myLineButton.setIcon(imageLine);
 
 
         Box myBox = Box.createHorizontalBox();
@@ -46,13 +66,16 @@ public class Paint extends JFrame {
         myBox.add(myFillButton);
         myBox.add(myRectangleButton);
 
-        myBox.setBackground(Color.YELLOW);
         myBox.add(myEllipseButton);
         myBox.add(myLineButton);
 
 
         paintPanel.add(myBox, BorderLayout.SOUTH);
-        paintPanel.add(new DrawingBoard(), BorderLayout.CENTER);
+        DrawingBoard drawBoard=new DrawingBoard();
+        drawBoard.setBackground(Color.BLUE);
+        drawBoard.setSize(700,700);
+        paintPanel.add(drawBoard, BorderLayout.CENTER);
+
         this.add(paintPanel, BorderLayout.SOUTH);
         this.setVisible(true);
 
@@ -154,7 +177,16 @@ public class Paint extends JFrame {
 
         }
 
-   }
+
+
+
+
+
+
+
+
+
+}
 
 
 
