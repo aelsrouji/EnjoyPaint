@@ -3,49 +3,69 @@
  */
 
 
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import javax.swing.border.*;
+import java.io.*; // VF (7/12) : added to open/save files
+
+import static java.awt.Graphics.*;
+
 
 public class Paint extends JFrame {
 
-    JButton myRectangleButton, myEllipseButton, myLineButton, myStokeButton, myFillButton, myEraserButton;
-    Color strokeColor = Color.BLACK, fillColor = Color.RED;
+    JButton myRectangleButton, myEllipseButton, myLineButton, myStrokeButton, myFillButton, myEraserButton;
+    Color strokeColor = Color.BLACK, fillColor = Color.blue;
 
     public  static void main(String[] args) {
+
         System.out.println("Welcome to Paint, Enjoy it! Implemented By: Vinicus and Ayman");
         new Paint();
 
         }
 
-    public Dimension getPreferredSize() {
-        return new Dimension(500, 500);
-    }
-
     public Paint(){
+
+        // VF (7/12) : added menu
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menuFile = new JMenu("File");
+        final JMenuItem openFile = new JMenuItem("Open ...");
+        JMenuItem saveFile = new JMenuItem("Save");
+        final JMenuItem saveAs = new JMenuItem("Save as ...");
+        JMenuItem getOut = new JMenuItem("Exit");
+
+        menuFile.add(openFile);
+        menuFile.add(saveFile);
+        menuFile.add(saveAs);
+        menuFile.add(getOut);
+
+        menuBar.add(menuFile);
+        this.setJMenuBar(menuBar);
+
+        // VF (7/12) : end of menu
 
         this.setSize(700, 700);
         this.setTitle("Sumatra Paint By Vini and Ayman - December 2016");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel paintPanel = new JPanel();
+        JPanel toolsPanel = new JPanel();
 
         myRectangleButton = new JButton();
         myRectangleButton.setSize(50, 50);
         ImageIcon imageRectangle= new ImageIcon(".\\Images\\rectangle.png") ;
         myRectangleButton.setIcon(imageRectangle);
 
-        myStokeButton = new JButton();
-        myStokeButton.setSize(50, 50);
-        ImageIcon imageFillColor= new ImageIcon(".\\Images\\fillColor.png") ;
-        myStokeButton.setIcon(imageFillColor);
+        myStrokeButton = new JButton();
+        myStrokeButton.setSize(50, 50);
+        ImageIcon imageFillColor= new ImageIcon(".\\Images\\brush.png") ;
+        myStrokeButton.setIcon(imageFillColor);
 
         myFillButton = new JButton();
         myFillButton.setSize(50, 50);
-        ImageIcon imageBrush= new ImageIcon(".\\Images\\brush.png") ;
+        ImageIcon imageBrush= new ImageIcon(".\\Images\\fillColor.png") ;
         myFillButton.setIcon(imageBrush);
 
         myEllipseButton = new JButton();
@@ -64,41 +84,43 @@ public class Paint extends JFrame {
         myEraserButton.setIcon(imageEraser);
 
 
-        Box myBox = Box.createHorizontalBox();
-        myBox.add(myStokeButton);
+        Box myBox = Box.createVerticalBox();
+        myBox.add(myStrokeButton);
         myBox.add(myFillButton);
         myBox.add(myRectangleButton);
         myBox.add(myEllipseButton);
         myBox.add(myLineButton);
         myBox.add(myEraserButton);
 
-        Box myDrawingBox = Box.createHorizontalBox();
-        myDrawingBox.add(myEraserButton);
+        //Box myDrawingBox = Box.createHorizontalBox();
+        //myDrawingBox.add(myEraserButton);
 
 
-        paintPanel.add(myBox, BorderLayout.SOUTH);
+        toolsPanel.add(myBox, BorderLayout.SOUTH);
 
 
         JPanel drawPanel = new JPanel();
-        drawPanel.add(myDrawingBox,BorderLayout.CENTER);
+        final DrawingBoard drawBoard=new DrawingBoard();
 
-
-        DrawingBoard drawBoard=new DrawingBoard();
-        drawBoard.setBackground(Color.BLUE);
         drawBoard.setSize(700,700);
-        paintPanel.add(drawBoard, BorderLayout.CENTER);
+        drawBoard.setBackground(Color.blue);
 
-        drawPanel.add(myEraserButton,BorderLayout.NORTH);
+        drawPanel.add(drawBoard, BorderLayout.CENTER);
+        System.out.println(drawBoard.getHeight() + " draw board height" + drawBoard.getBackground().toString());
+       //JTextArea textArea= new JTextArea(50,50);
+        //drawPanel.add(textArea);
 
-        this.add(paintPanel, BorderLayout.SOUTH);
+        this.add(toolsPanel, BorderLayout.EAST);
         this.add(drawPanel, BorderLayout.CENTER);
 
         this.setVisible(true);
 
-        myStokeButton.addActionListener(new ActionListener() {
+        myStrokeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                    strokeColor = JColorChooser.showDialog(null,"Choose a stroke color",Color.RED);
+                if (true) {
+                    strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.RED);
+                }
             }
 
         });
@@ -113,12 +135,13 @@ public class Paint extends JFrame {
         myRectangleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("This is rectangle " +
+                        "tool");
 
-                drawRectangle(10, 10, 20, 20);
-                }
+                drawRectangle(10,32,20,40);
 
 
-
+              }
         });
 
         myEllipseButton.addActionListener(new ActionListener() {
@@ -136,70 +159,145 @@ public class Paint extends JFrame {
             }
         });
 
+
         myLineButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Shape myLine =new Line2D.Float(10,10,90,80);
+                //
+               /* Shape myLine =new Line2D.Float(10,10,90,80); */
 
             }
         });
-    }
 
+        // VF (7/12) : added a file opener
+        openFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final JFileChooser fc = new JFileChooser();
+                int returnVal = fc.showOpenDialog(openFile);
+                File file = null;
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    file = fc.getSelectedFile();
+                    // VF (7/12) : add here the code to actually display the image file on the drawing window
+                } else {
+                    // VF (7/12) : error - user needs to be notified
+                }
+            }
+        });
+
+        // VF (7/12) : added an empty event listener for saving file (prepared for future implementation)
+
+        saveFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // waiting for some code here :)
+            }
+        });
+
+        // VF (7/12) : added a file saving window
+        saveAs.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                if (fileChooser.showSaveDialog(saveAs) == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    // VF (7/12) : add here code to save drawing to a file
+                }
+            }
+        });
+
+        // VF (7/12) : another option to close the program (very commonly found under "file" menus.
+        getOut.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+    }
 
     public class DrawingBoard extends JComponent {
         ArrayList<Shape> shapes = new ArrayList<Shape>();
         ArrayList<Color> fillColor = new ArrayList<Color>();
-        ArrayList<Shape> stokeColor = new ArrayList<Shape>();
+        ArrayList<Color> stokeColor = new ArrayList<Color>();
         Point startP, endP;
 
         public DrawingBoard() {
             this.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent mouseEvent) {
+                    System.out.println("mousePressed at DrawingBoard");
                     startP = new Point(mouseEvent.getX(), mouseEvent.getY());
                     endP = startP;
                     repaint();
                 }
-                public void MouseReleased(MouseEvent mouseEvent)
-                {
-                   Shape myRect = drawRectangle(5,5,5,5);
-                   shapes.add(myRect);
+
+                public void MouseReleased(MouseEvent mouseEvent) {
+                    Shape myRect = drawRectangle(startP.x, startP.y, mouseEvent.getX(), mouseEvent.getY());
+                    shapes.add(myRect);
+
+                    ArrayList<Color> shapeFill=new ArrayList<Color>();
+                    ArrayList<Color> shapeStroke =new ArrayList<Color>();
+
+                    //shapeFill.add(fillColor);
+                    shapeStroke.add(strokeColor);
+
+                    startP = null;
+                    endP = null;
                     repaint();
-                }
-
-                public void draw(Graphics g) {
-                    Graphics2D graphSettings = (Graphics2D) g;
-                    graphSettings.setStroke(new BasicStroke(2));
-
-
-                    for (Shape s : shapes) {
-                        graphSettings.draw(s);
-
-                    }
                 }
 
 
             });
 
-            }
+            this.addMouseMotionListener(new MouseMotionAdapter() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    System.out.println("mousedragged at DrawingBoard");
+
+                    endP = new Point(e.getX(), e.getY());
+                    repaint();
+                }
+            });
         }
 
+
+        public void draw(Graphics g) {
+            Graphics2D graphSettings = (Graphics2D) g;
+            graphSettings.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+            graphSettings.setStroke(new BasicStroke(2));
+            Iterator<Color> strokeCounters = stokeColor.iterator();
+            Iterator<Color> fillCounters = fillColor.iterator();
+            graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1.0f));
+                    for (Shape s: shapes)
+                    {
+                        graphSettings.setPaint(strokeCounters.next());
+                        graphSettings.draw(s);
+                        graphSettings.setPaint(fillCounters.next());
+                        graphSettings.fill(s);
+                    }
+                    if (startP !=null && endP!=null)
+                    {
+                        graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.6f));
+                        graphSettings.setPaint(Color.GREEN);
+                        Shape xShape = drawRectangle(startP.x,startP.y,endP.x,endP.y);
+
+
+                    }
+
+        }
+    }
 
         private Rectangle2D.Float drawRectangle(int x1, int y1, int x2, int y2) {
+            int x = Math.min(x1, x2);
+            int y = Math.min(y1, y2);
 
-            return new Rectangle2D.Float(x1,y1,x2,y2);
+            int width = Math.abs(x1 - x2);
+            int height = Math.abs(y1 - y2);
+
+            return new Rectangle2D.Float(x, y, width, height);
 
         }
-
-
-
-
-
-
-
-
-
-
 }
 
 
