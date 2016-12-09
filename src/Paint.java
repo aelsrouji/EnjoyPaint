@@ -2,8 +2,6 @@
  * Created by Sumatra Group on 12/5/2016.
  */
 
-
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -14,45 +12,39 @@ import java.io.*; // VF (7/12) : added to open/save files
 
 import static java.awt.Graphics.*;
 
-
 public class Paint extends JFrame {
 
-    JButton myRectangleButton, myEllipseButton, myLineButton, myStrokeButton, myFillButton, myEraserButton;
+    static JButton myRectangleButton, myEllipseButton, myLineButton, myStrokeButton, myFillButton, myEraserButton;
+    static JMenuItem openFile;
+    static JMenuItem saveFile;
+    static JMenuItem saveAs;
+    static JMenuItem getOut;
     Color strokeColor = Color.BLACK, fillColor = Color.blue;
+    static JFrame frame;
 
     public  static void main(String[] args) {
-
-        System.out.println("Welcome to Paint, Enjoy it! Implemented By: Vinicus and Ayman");
+        frame =new JFrame();
+        createAndShowGUI();
+        frame.setVisible(true);
         new Paint();
 
         }
 
-    public Paint(){
+    private static void createAndShowGUI() {
+        createFrame();
+        createMenu();
+        createToolbox();
+        addActions();
 
-        // VF (7/12) : added menu
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menuFile = new JMenu("File");
-        final JMenuItem openFile = new JMenuItem("Open ...");
-        JMenuItem saveFile = new JMenuItem("Save");
-        final JMenuItem saveAs = new JMenuItem("Save as ...");
-        JMenuItem getOut = new JMenuItem("Exit");
+    }
 
-        menuFile.add(openFile);
-        menuFile.add(saveFile);
-        menuFile.add(saveAs);
-        menuFile.add(getOut);
+    private static void addActions() {
 
-        menuBar.add(menuFile);
-        this.setJMenuBar(menuBar);
+    }
 
-        // VF (7/12) : end of menu
-
-        this.setSize(700, 700);
-        this.setTitle("Sumatra Paint By Vini and Ayman - December 2016");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    private static void createToolbox() {
 
         JPanel toolsPanel = new JPanel();
-
         myRectangleButton = new JButton();
         myRectangleButton.setSize(50, 50);
         ImageIcon imageRectangle= new ImageIcon(".\\Images\\rectangle.png") ;
@@ -83,7 +75,6 @@ public class Paint extends JFrame {
         ImageIcon imageEraser= new ImageIcon(".\\Images\\eraser.png") ;
         myEraserButton.setIcon(imageEraser);
 
-
         Box myBox = Box.createVerticalBox();
         myBox.add(myStrokeButton);
         myBox.add(myFillButton);
@@ -91,12 +82,41 @@ public class Paint extends JFrame {
         myBox.add(myEllipseButton);
         myBox.add(myLineButton);
         myBox.add(myEraserButton);
-
-        //Box myDrawingBox = Box.createHorizontalBox();
-        //myDrawingBox.add(myEraserButton);
-
-
         toolsPanel.add(myBox, BorderLayout.SOUTH);
+        frame.add(toolsPanel, BorderLayout.EAST);
+
+    }
+
+
+    private static void createFrame() {
+        frame.setSize(800, 600);
+        frame.setTitle("Sumatra Paint By Vini and Ayman - December 2016");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    }
+
+    private static void createMenu() {
+        // VF (7/12) : added menu
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menuFile = new JMenu("File");
+        openFile = new JMenuItem("Open ...");
+        saveFile = new JMenuItem("Save");
+        saveAs = new JMenuItem("Save as ...");
+        getOut = new JMenuItem("Exit");
+
+        menuFile.add(openFile);
+        menuFile.add(saveFile);
+        menuFile.add(saveAs);
+        menuFile.add(getOut);
+        JMenu add = menuBar.add(menuFile);
+        frame.setJMenuBar(menuBar);
+        // VF (7/12) : end of menu
+
+    }
+
+
+    public Paint(){
 
 
         JPanel drawPanel = new JPanel();
@@ -110,10 +130,8 @@ public class Paint extends JFrame {
        //JTextArea textArea= new JTextArea(50,50);
         //drawPanel.add(textArea);
 
-        this.add(toolsPanel, BorderLayout.EAST);
         this.add(drawPanel, BorderLayout.CENTER);
 
-        this.setVisible(true);
 
         myStrokeButton.addActionListener(new ActionListener() {
             @Override
@@ -174,6 +192,7 @@ public class Paint extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JFileChooser fc = new JFileChooser();
+
                 int returnVal = fc.showOpenDialog(openFile);
                 File file = null;
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
