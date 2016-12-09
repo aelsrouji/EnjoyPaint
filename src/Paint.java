@@ -34,13 +34,9 @@ public class Paint extends JFrame {
         createFrame();
         createMenu();
         createToolbox();
-        addActions();
 
     }
 
-    private static void addActions() {
-
-    }
 
     private static void createToolbox() {
 
@@ -105,6 +101,11 @@ public class Paint extends JFrame {
         saveAs = new JMenuItem("Save as ...");
         getOut = new JMenuItem("Exit");
 
+        //Setting Mnemonic and accelerators
+        menuFile.setMnemonic(KeyEvent.VK_F);
+        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK));
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,ActionEvent.ALT_MASK));
+
         menuFile.add(openFile);
         menuFile.add(saveFile);
         menuFile.add(saveAs);
@@ -112,12 +113,9 @@ public class Paint extends JFrame {
         JMenu add = menuBar.add(menuFile);
         frame.setJMenuBar(menuBar);
         // VF (7/12) : end of menu
-
     }
 
-
     public Paint(){
-
 
         JPanel drawPanel = new JPanel();
         final DrawingBoard drawBoard=new DrawingBoard();
@@ -125,13 +123,9 @@ public class Paint extends JFrame {
         drawBoard.setSize(700,700);
         drawBoard.setBackground(Color.blue);
 
-        drawPanel.add(drawBoard, BorderLayout.CENTER);
-        System.out.println(drawBoard.getHeight() + " draw board height" + drawBoard.getBackground().toString());
-       //JTextArea textArea= new JTextArea(50,50);
-        //drawPanel.add(textArea);
-
+        drawBoard.add(drawBoard, BorderLayout.CENTER);
+        System.out.println(drawBoard.getHeight() + " draw board height");
         this.add(drawPanel, BorderLayout.CENTER);
-
 
         myStrokeButton.addActionListener(new ActionListener() {
             @Override
