@@ -19,15 +19,16 @@ public class Paint extends JFrame {
     static JMenuItem saveFile;
     static JMenuItem saveAs;
     static JMenuItem getOut;
-    Color strokeColor = Color.BLACK, fillColor = Color.blue;
+    static Color strokeColor = Color.BLACK;
+    static Color fillColor = Color.blue;
     static JFrame frame;
 
     public  static void main(String[] args) {
         frame =new JFrame();
-        createAndShowGUI();
         frame.setVisible(true);
-        new Paint();
 
+        createAndShowGUI();
+        addActions();
         }
 
     private static void createAndShowGUI() {
@@ -37,102 +38,26 @@ public class Paint extends JFrame {
 
     }
 
+    private static void addActions() {
 
-    private static void createToolbox() {
+        myRectangleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("This is rectangle tool");
+                DrawShape objDrawShape = new DrawShape();
+                frame.add(objDrawShape);
+                objDrawShape.drawing();
 
-        JPanel toolsPanel = new JPanel();
-        myRectangleButton = new JButton();
-        myRectangleButton.setSize(50, 50);
-        ImageIcon imageRectangle= new ImageIcon(".\\Images\\rectangle.png") ;
-        myRectangleButton.setIcon(imageRectangle);
+            }
+        });
 
-        myStrokeButton = new JButton();
-        myStrokeButton.setSize(50, 50);
-        ImageIcon imageFillColor= new ImageIcon(".\\Images\\brush.png") ;
-        myStrokeButton.setIcon(imageFillColor);
-
-        myFillButton = new JButton();
-        myFillButton.setSize(50, 50);
-        ImageIcon imageBrush= new ImageIcon(".\\Images\\fillColor.png") ;
-        myFillButton.setIcon(imageBrush);
-
-        myEllipseButton = new JButton();
-        myEllipseButton.setSize(50, 50);
-        ImageIcon imageEllipse= new ImageIcon(".\\Images\\circle.png") ;
-        myEllipseButton.setIcon(imageEllipse);
-
-        myLineButton = new JButton();
-        myLineButton.setSize(50, 50);
-        ImageIcon imageLine= new ImageIcon(".\\Images\\line.png") ;
-        myLineButton.setIcon(imageLine);
-
-        myEraserButton = new JButton();
-        myEraserButton.setSize(50, 50);
-        ImageIcon imageEraser= new ImageIcon(".\\Images\\eraser.png") ;
-        myEraserButton.setIcon(imageEraser);
-
-        Box myBox = Box.createVerticalBox();
-        myBox.add(myStrokeButton);
-        myBox.add(myFillButton);
-        myBox.add(myRectangleButton);
-        myBox.add(myEllipseButton);
-        myBox.add(myLineButton);
-        myBox.add(myEraserButton);
-        toolsPanel.add(myBox, BorderLayout.SOUTH);
-        frame.add(toolsPanel, BorderLayout.EAST);
-
-    }
-
-
-    private static void createFrame() {
-        frame.setSize(800, 600);
-        frame.setTitle("Sumatra Paint By Vini and Ayman - December 2016");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    }
-
-    private static void createMenu() {
-        // VF (7/12) : added menu
-
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menuFile = new JMenu("File");
-        openFile = new JMenuItem("Open ...");
-        saveFile = new JMenuItem("Save");
-        saveAs = new JMenuItem("Save as ...");
-        getOut = new JMenuItem("Exit");
-
-        //Setting Mnemonic and accelerators
-        menuFile.setMnemonic(KeyEvent.VK_F);
-        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK));
-        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,ActionEvent.ALT_MASK));
-
-        menuFile.add(openFile);
-        menuFile.add(saveFile);
-        menuFile.add(saveAs);
-        menuFile.add(getOut);
-        JMenu add = menuBar.add(menuFile);
-        frame.setJMenuBar(menuBar);
-        // VF (7/12) : end of menu
-    }
-
-    public Paint(){
-
-        JPanel drawPanel = new JPanel();
-        final DrawingBoard drawBoard=new DrawingBoard();
-
-        drawBoard.setSize(700,700);
-        drawBoard.setBackground(Color.blue);
-
-        drawBoard.add(drawBoard, BorderLayout.CENTER);
-        System.out.println(drawBoard.getHeight() + " draw board height");
-        this.add(drawPanel, BorderLayout.CENTER);
 
         myStrokeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (true) {
+
                     strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.RED);
-                }
+
             }
 
         });
@@ -144,17 +69,7 @@ public class Paint extends JFrame {
             }
         });
 
-        myRectangleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("This is rectangle " +
-                        "tool");
 
-                drawRectangle(10,32,20,40);
-
-
-              }
-        });
 
         myEllipseButton.addActionListener(new ActionListener() {
             @Override
@@ -226,6 +141,100 @@ public class Paint extends JFrame {
                 System.exit(0);
             }
         });
+
+
+    }
+
+
+    private static void createToolbox() {
+
+        JPanel toolsPanel = new JPanel();
+        myRectangleButton = new JButton();
+        myRectangleButton.setSize(50, 50);
+        ImageIcon imageRectangle= new ImageIcon(".\\Images\\rectangle.png") ;
+        myRectangleButton.setIcon(imageRectangle);
+
+        myStrokeButton = new JButton();
+        myStrokeButton.setSize(50, 50);
+        ImageIcon imageFillColor= new ImageIcon(".\\Images\\brush.png") ;
+        myStrokeButton.setIcon(imageFillColor);
+
+        myFillButton = new JButton();
+        myFillButton.setSize(50, 50);
+        ImageIcon imageBrush= new ImageIcon(".\\Images\\fillColor.png") ;
+        myFillButton.setIcon(imageBrush);
+
+        myEllipseButton = new JButton();
+        myEllipseButton.setSize(50, 50);
+        ImageIcon imageEllipse= new ImageIcon(".\\Images\\circle.png") ;
+        myEllipseButton.setIcon(imageEllipse);
+
+        myLineButton = new JButton();
+        myLineButton.setSize(50, 50);
+        ImageIcon imageLine= new ImageIcon(".\\Images\\line.png") ;
+        myLineButton.setIcon(imageLine);
+
+        myEraserButton = new JButton();
+        myEraserButton.setSize(50, 50);
+        ImageIcon imageEraser= new ImageIcon(".\\Images\\eraser.png") ;
+        myEraserButton.setIcon(imageEraser);
+
+        Box myBox = Box.createVerticalBox();
+        myBox.add(myStrokeButton);
+        myBox.add(myFillButton);
+        myBox.add(myRectangleButton);
+        myBox.add(myEllipseButton);
+        myBox.add(myLineButton);
+        myBox.add(myEraserButton);
+        toolsPanel.add(myBox, BorderLayout.SOUTH);
+        frame.add(toolsPanel, BorderLayout.EAST);
+
+    }
+
+
+    private static void createFrame() {
+        frame.setSize(800, 800);
+        frame.setTitle("Sumatra Paint By Vini and Ayman - December 2016");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+    }
+
+    private static void createMenu() {
+        // VF (7/12) : added menu
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menuFile = new JMenu("File");
+        openFile = new JMenuItem("Open ...");
+        saveFile = new JMenuItem("Save");
+        saveAs = new JMenuItem("Save as ...");
+        getOut = new JMenuItem("Exit");
+
+        //Setting Mnemonic and accelerators
+        menuFile.setMnemonic(KeyEvent.VK_F);
+        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK));
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,ActionEvent.ALT_MASK));
+
+        menuFile.add(openFile);
+        menuFile.add(saveFile);
+        menuFile.add(saveAs);
+        menuFile.add(getOut);
+        JMenu add = menuBar.add(menuFile);
+        frame.setJMenuBar(menuBar);
+        // VF (7/12) : end of menu
+    }
+
+    //paint is not in use currenlty
+    public Paint(){
+
+        JPanel drawPanel = new JPanel();
+        final DrawingBoard drawBoard=new DrawingBoard();
+
+        drawBoard.setSize(300,300);
+        drawBoard.setBackground(Color.blue);
+
+        drawBoard.add(drawBoard, BorderLayout.CENTER);
+        System.out.println(drawBoard.getHeight() + " draw board height");
+        this.add(drawPanel, BorderLayout.CENTER);
 
     }
 

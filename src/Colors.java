@@ -9,7 +9,6 @@ import java.awt.Color;
 public class Colors {
 
 
-
     public class ColorJPanel extends JPanel
  {
          // draw rectangles and Strings in different colors
