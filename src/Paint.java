@@ -24,17 +24,19 @@ public class Paint extends JFrame {
     static JFrame frame;
 
     public  static void main(String[] args) {
+
         frame =new JFrame();
         frame.setVisible(true);
-
         createAndShowGUI();
         addActions();
+
         }
 
     private static void createAndShowGUI() {
         createFrame();
         createMenu();
         createToolbox();
+        frame.revalidate();
 
     }
 
@@ -43,11 +45,10 @@ public class Paint extends JFrame {
         myRectangleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("This is rectangle tool");
-                DrawShape objDrawShape = new DrawShape();
-                frame.add(objDrawShape);
-                objDrawShape.drawing();
-
+                DrawRectangle objDrawRect = new DrawRectangle();
+                frame.add(objDrawRect);
+                objDrawRect.drawing();
+                frame.revalidate();
             }
         });
 
@@ -55,11 +56,8 @@ public class Paint extends JFrame {
         myStrokeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
                     strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.RED);
-
             }
-
         });
 
         myFillButton.addActionListener(new ActionListener() {
@@ -69,19 +67,21 @@ public class Paint extends JFrame {
             }
         });
 
-
-
         myEllipseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("This is Ellipse tool");
-
+                DrawOval objDrawOval = new DrawOval();
+                frame.add(objDrawOval);
+                objDrawOval.drawing();
+                frame.revalidate();
             }
+
         });
 
-        myFillButton.addActionListener(new ActionListener() {
+        myEraserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+
 
             }
         });
@@ -90,8 +90,10 @@ public class Paint extends JFrame {
         myLineButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //
-               /* Shape myLine =new Line2D.Float(10,10,90,80); */
+                DrawShape objDrawShape = new DrawShape();
+                frame.add(objDrawShape);
+                objDrawShape.drawing();
+                frame.revalidate();
 
             }
         });
@@ -191,9 +193,8 @@ public class Paint extends JFrame {
 
     }
 
-
     private static void createFrame() {
-        frame.setSize(800, 800);
+        frame.setSize(700,500);
         frame.setTitle("Sumatra Paint By Vini and Ayman - December 2016");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -320,7 +321,14 @@ public class Paint extends JFrame {
             return new Rectangle2D.Float(x, y, width, height);
 
         }
-}
+
+
+    public static void paintOval(Graphics g) {
+        g.setColor(Color.RED);
+        g.drawOval(10, 20, 100, 140);
+    }
+
+    }
 
 
 
