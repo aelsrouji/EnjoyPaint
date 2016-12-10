@@ -11,11 +11,16 @@ import java.util.Iterator;
  * Created by ayman on 2016-12-10.
  */
 
+
 public class DrawingBoard extends JPanel {
+
     ArrayList<Shape> shapes = new ArrayList<Shape>();
-    ArrayList<Color> fillColor = new ArrayList<Color>();
-    ArrayList<Color> stokeColor = new ArrayList<Color>();
+    ArrayList<Color> fillColors = new ArrayList<Color>();
+    ArrayList<Color> strokeColors = new ArrayList<Color>();
     Point startP, endP;
+    static Color fillColor = Color.blue;
+    static Color strokeColor = Color.BLACK;
+
 
     public void drawing(){
         repaint();
@@ -32,15 +37,15 @@ public class DrawingBoard extends JPanel {
             }
 
             public void MouseReleased(MouseEvent mouseEvent) {
-                System.out.println("mouse Released at DrawingBoard");
+                //why mouse released is never called?
 
+                System.out.println("mouse Released at DrawingBoard");
                 Shape myRect = drawRectangle(startP.x, startP.y, mouseEvent.getX(), mouseEvent.getY());
                 shapes.add(myRect);
                 ArrayList<Color> shapeFill=new ArrayList<Color>();
                 ArrayList<Color> shapeStroke =new ArrayList<Color>();
-                //shapeFill.add(fillColor);
-                //shapeStroke.add(strokeColor);
-
+                shapeFill.add(fillColor);
+                shapeStroke.add(strokeColor);
                 startP = null;
                 endP = null;
                 repaint();
@@ -61,13 +66,13 @@ public class DrawingBoard extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-
         Graphics2D graphSettings = (Graphics2D) g;
         graphSettings.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         graphSettings.setStroke(new BasicStroke(2));
-        Iterator<Color> strokeCounters = stokeColor.iterator();
-        Iterator<Color> fillCounters = fillColor.iterator();
+        Iterator<Color> strokeCounters = strokeColors.iterator();
+        Iterator<Color> fillCounters = fillColors.iterator();
         graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1.0f));
+
         for (Shape s: shapes)
         {
             graphSettings.setPaint(strokeCounters.next());
@@ -80,7 +85,6 @@ public class DrawingBoard extends JPanel {
             graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.6f));
             graphSettings.setPaint(Color.GREEN);
             Shape xShape = drawRectangle(startP.x,startP.y,endP.x,endP.y);
-
 
         }
 
