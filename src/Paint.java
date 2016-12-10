@@ -30,6 +30,11 @@ public class Paint extends JFrame {
         createAndShowGUI();
         addActions();
 
+        DrawingBoard objDraw= new DrawingBoard();
+        frame.add(objDraw);
+        objDraw.drawing();
+        frame.revalidate();
+
         }
 
     private static void createAndShowGUI() {
@@ -238,89 +243,6 @@ public class Paint extends JFrame {
         this.add(drawPanel, BorderLayout.CENTER);
 
     }
-
-    public class DrawingBoard extends JComponent {
-        ArrayList<Shape> shapes = new ArrayList<Shape>();
-        ArrayList<Color> fillColor = new ArrayList<Color>();
-        ArrayList<Color> stokeColor = new ArrayList<Color>();
-        Point startP, endP;
-
-        public DrawingBoard() {
-            this.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent mouseEvent) {
-                    System.out.println("mousePressed at DrawingBoard");
-                    startP = new Point(mouseEvent.getX(), mouseEvent.getY());
-                    endP = startP;
-                    repaint();
-                }
-
-                public void MouseReleased(MouseEvent mouseEvent) {
-                    Shape myRect = drawRectangle(startP.x, startP.y, mouseEvent.getX(), mouseEvent.getY());
-                    shapes.add(myRect);
-
-                    ArrayList<Color> shapeFill=new ArrayList<Color>();
-                    ArrayList<Color> shapeStroke =new ArrayList<Color>();
-
-                    //shapeFill.add(fillColor);
-                    shapeStroke.add(strokeColor);
-
-                    startP = null;
-                    endP = null;
-                    repaint();
-                }
-
-
-            });
-
-            this.addMouseMotionListener(new MouseMotionAdapter() {
-                @Override
-                public void mouseDragged(MouseEvent e) {
-                    System.out.println("mousedragged at DrawingBoard");
-
-                    endP = new Point(e.getX(), e.getY());
-                    repaint();
-                }
-            });
-        }
-
-
-        public void draw(Graphics g) {
-            Graphics2D graphSettings = (Graphics2D) g;
-            graphSettings.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-            graphSettings.setStroke(new BasicStroke(2));
-            Iterator<Color> strokeCounters = stokeColor.iterator();
-            Iterator<Color> fillCounters = fillColor.iterator();
-            graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1.0f));
-                    for (Shape s: shapes)
-                    {
-                        graphSettings.setPaint(strokeCounters.next());
-                        graphSettings.draw(s);
-                        graphSettings.setPaint(fillCounters.next());
-                        graphSettings.fill(s);
-                    }
-                    if (startP !=null && endP!=null)
-                    {
-                        graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.6f));
-                        graphSettings.setPaint(Color.GREEN);
-                        Shape xShape = drawRectangle(startP.x,startP.y,endP.x,endP.y);
-
-
-                    }
-
-        }
-    }
-
-        private Rectangle2D.Float drawRectangle(int x1, int y1, int x2, int y2) {
-            int x = Math.min(x1, x2);
-            int y = Math.min(y1, y2);
-
-            int width = Math.abs(x1 - x2);
-            int height = Math.abs(y1 - y2);
-
-            return new Rectangle2D.Float(x, y, width, height);
-
-        }
 
 
     public static void paintOval(Graphics g) {
