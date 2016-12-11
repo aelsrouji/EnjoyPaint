@@ -33,6 +33,7 @@ public class DrawingBoard extends JPanel {
                 System.out.println("mousePressed at DrawingBoard");
                 startP = new Point(mouseEvent.getX(), mouseEvent.getY());
                 endP = startP;
+
                 repaint();
             }
 
@@ -65,7 +66,6 @@ public class DrawingBoard extends JPanel {
     public void paintComponent(Graphics g) {
         try {
 
-
             super.paintComponent(g);
 
             Graphics2D graphSettings = (Graphics2D) g;
@@ -77,11 +77,11 @@ public class DrawingBoard extends JPanel {
 
             for (Shape s : shapes) {
 
-                   // graphSettings.setPaint(strokeCounters.next());
+                 //  graphSettings.setPaint(strokeCounters.next());
+
                     graphSettings.draw(s);
                    // graphSettings.setPaint(fillCounters.next());
                     graphSettings.fill(s);
-
 
             }
             if (startP != null && endP != null) {

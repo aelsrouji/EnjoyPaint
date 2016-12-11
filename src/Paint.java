@@ -23,6 +23,7 @@ public class Paint extends JFrame {
     static Color strokeColor = Color.BLACK;
     static Color fillColor = Color.blue;
     static JFrame frame;
+    //static DrawingBoard objDraw=new DrawingBoard();
 
     public static void main(String[] args) {
 
@@ -65,7 +66,10 @@ public class Paint extends JFrame {
         myStrokeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.RED);
+                strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.BLACK);
+
+
+
             }
         });
 
