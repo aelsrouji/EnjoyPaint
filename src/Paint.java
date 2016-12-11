@@ -9,6 +9,7 @@ import java.awt.geom.*;
 import java.util.*;
 import javax.swing.border.*;
 import java.io.*; // VF (7/12) : added to open/save files
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.awt.Graphics.*;
 
@@ -23,19 +24,22 @@ public class Paint extends JFrame {
     static Color fillColor = Color.blue;
     static JFrame frame;
 
-    public  static void main(String[] args) {
+    public static void main(String[] args) {
 
-        frame =new JFrame();
+        frame = new JFrame();
         frame.setVisible(true);
         createAndShowGUI();
         addActions();
 
-        DrawingBoard objDraw= new DrawingBoard();
+        DrawingBoard objDraw = new DrawingBoard();
+        objDraw.setBackground(Color.white);
+        objDraw.setSize(300,300);
         frame.add(objDraw);
         objDraw.drawing();
         frame.revalidate();
 
-        }
+
+    }
 
     private static void createAndShowGUI() {
         createFrame();
@@ -61,14 +65,14 @@ public class Paint extends JFrame {
         myStrokeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                    strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.RED);
+                strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.RED);
             }
         });
 
         myFillButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                fillColor = JColorChooser.showDialog(null,"Choose a fill color",Color.BLUE);
+                fillColor = JColorChooser.showDialog(null, "Choose a fill color", Color.BLUE);
             }
         });
 
@@ -158,32 +162,32 @@ public class Paint extends JFrame {
         JPanel toolsPanel = new JPanel();
         myRectangleButton = new JButton();
         myRectangleButton.setSize(50, 50);
-        ImageIcon imageRectangle= new ImageIcon(".\\Images\\rectangle.png") ;
+        ImageIcon imageRectangle = new ImageIcon(".\\Images\\rectangle.png");
         myRectangleButton.setIcon(imageRectangle);
 
         myStrokeButton = new JButton();
         myStrokeButton.setSize(50, 50);
-        ImageIcon imageFillColor= new ImageIcon(".\\Images\\brush.png") ;
+        ImageIcon imageFillColor = new ImageIcon(".\\Images\\brush.png");
         myStrokeButton.setIcon(imageFillColor);
 
         myFillButton = new JButton();
         myFillButton.setSize(50, 50);
-        ImageIcon imageBrush= new ImageIcon(".\\Images\\fillColor.png") ;
+        ImageIcon imageBrush = new ImageIcon(".\\Images\\fillColor.png");
         myFillButton.setIcon(imageBrush);
 
         myEllipseButton = new JButton();
         myEllipseButton.setSize(50, 50);
-        ImageIcon imageEllipse= new ImageIcon(".\\Images\\circle.png") ;
+        ImageIcon imageEllipse = new ImageIcon(".\\Images\\circle.png");
         myEllipseButton.setIcon(imageEllipse);
 
         myLineButton = new JButton();
         myLineButton.setSize(50, 50);
-        ImageIcon imageLine= new ImageIcon(".\\Images\\line.png") ;
+        ImageIcon imageLine = new ImageIcon(".\\Images\\line.png");
         myLineButton.setIcon(imageLine);
 
         myEraserButton = new JButton();
         myEraserButton.setSize(50, 50);
-        ImageIcon imageEraser= new ImageIcon(".\\Images\\eraser.png") ;
+        ImageIcon imageEraser = new ImageIcon(".\\Images\\eraser.png");
         myEraserButton.setIcon(imageEraser);
 
         Box myBox = Box.createVerticalBox();
@@ -199,7 +203,7 @@ public class Paint extends JFrame {
     }
 
     private static void createFrame() {
-        frame.setSize(700,500);
+        frame.setSize(700, 500);
         frame.setTitle("Sumatra Paint By Vini and Ayman - December 2016");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -218,7 +222,7 @@ public class Paint extends JFrame {
         //Setting Mnemonic and accelerators
         menuFile.setMnemonic(KeyEvent.VK_F);
         openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.ALT_MASK));
-        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,ActionEvent.ALT_MASK));
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK));
 
         menuFile.add(openFile);
         menuFile.add(saveFile);
@@ -230,12 +234,12 @@ public class Paint extends JFrame {
     }
 
     //paint is not in use currenlty
-    public Paint(){
+    public Paint() {
 
         JPanel drawPanel = new JPanel();
-        final DrawingBoard drawBoard=new DrawingBoard();
+        final DrawingBoard drawBoard = new DrawingBoard();
 
-        drawBoard.setSize(300,300);
+        drawBoard.setSize(300, 300);
         drawBoard.setBackground(Color.blue);
 
         drawBoard.add(drawBoard, BorderLayout.CENTER);
@@ -245,12 +249,7 @@ public class Paint extends JFrame {
     }
 
 
-    public static void paintOval(Graphics g) {
-        g.setColor(Color.RED);
-        g.drawOval(10, 20, 100, 140);
-    }
-
-    }
+}
 
 
 

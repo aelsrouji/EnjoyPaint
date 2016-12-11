@@ -36,9 +36,8 @@ public class DrawingBoard extends JPanel {
                 repaint();
             }
 
-            public void MouseReleased(MouseEvent mouseEvent) {
-                //why mouse released is never called?
-
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
                 System.out.println("mouse Released at DrawingBoard");
                 Shape myRect = drawRectangle(startP.x, startP.y, mouseEvent.getX(), mouseEvent.getY());
                 shapes.add(myRect);
@@ -64,28 +63,37 @@ public class DrawingBoard extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        try {
 
-        Graphics2D graphSettings = (Graphics2D) g;
-        graphSettings.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        graphSettings.setStroke(new BasicStroke(2));
-        Iterator<Color> strokeCounters = strokeColors.iterator();
-        Iterator<Color> fillCounters = fillColors.iterator();
-        graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1.0f));
 
-        for (Shape s: shapes)
-        {
-            graphSettings.setPaint(strokeCounters.next());
-            graphSettings.draw(s);
-            graphSettings.setPaint(fillCounters.next());
-            graphSettings.fill(s);
+            super.paintComponent(g);
+
+            Graphics2D graphSettings = (Graphics2D) g;
+            graphSettings.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphSettings.setStroke(new BasicStroke(2));
+            Iterator<Color> strokeCounters = strokeColors.iterator();
+            Iterator<Color> fillCounters = fillColors.iterator();
+            graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
+            for (Shape s : shapes) {
+
+                   // graphSettings.setPaint(strokeCounters.next());
+                    graphSettings.draw(s);
+                   // graphSettings.setPaint(fillCounters.next());
+                    graphSettings.fill(s);
+
+
+            }
+            if (startP != null && endP != null) {
+                graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
+                graphSettings.setPaint(Color.GREEN);
+                Shape xShape = drawRectangle(startP.x, startP.y, endP.x, endP.y);
+
+            }
         }
-        if (startP !=null && endP!=null)
-        {
-            graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.6f));
-            graphSettings.setPaint(Color.GREEN);
-            Shape xShape = drawRectangle(startP.x,startP.y,endP.x,endP.y);
-
+        catch (Exception x) {
+        x.printStackTrace();
+            System.out.println(x.getMessage());
         }
 
     }
@@ -100,6 +108,8 @@ public class DrawingBoard extends JPanel {
         return new Rectangle2D.Float(x, y, width, height);
 
     }
+
+
 
 }
 
