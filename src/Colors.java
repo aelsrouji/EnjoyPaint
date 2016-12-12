@@ -6,10 +6,10 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import java.awt.Color;
 
-public class Colors {
+class Colors {
 
 
-    public class ColorJPanel extends JPanel
+    private class ColorJPanel extends JPanel
  {
          // draw rectangles and Strings in different colors
          @Override

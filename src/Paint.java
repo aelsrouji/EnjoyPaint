@@ -25,12 +25,13 @@ public class Paint extends JFrame {
     static JFrame frame;
     public static int shapeID=0;
     static final Border redBorder = new LineBorder(Color.RED, 10);
-
+    static final Border noBorder = new LineBorder(Color.black, 1);
 
     public static void main(String[] args) {
         frame = new JFrame();
         frame.setVisible(true);
         createAndShowGUI();
+        noBorder();
         addActions();
 
         DrawingBoard objDraw = new DrawingBoard();
@@ -52,8 +53,6 @@ public class Paint extends JFrame {
         shapeID = shapeid;
     }
 
-
-
     private static void createAndShowGUI() {
         createFrame();
         createMenu();
@@ -61,13 +60,7 @@ public class Paint extends JFrame {
         frame.revalidate();
     }
 
-    private static void resetButtonBorders()
-    {
-        // reset all buttons border to original state
-    }
-
     private static void addActions() {
-
         myLineButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -82,6 +75,7 @@ public class Paint extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 setShapeID(1);
                 DrawingBoard objDrawRect = new DrawingBoard();
+                noBorder();
                 myRectangleButton.setBorder(redBorder);
             }
         });
@@ -91,6 +85,7 @@ public class Paint extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.BLACK);
+                noBorder();
                 myStrokeButton.setBorder(redBorder);
             }
         });
@@ -99,6 +94,7 @@ public class Paint extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 fillColor = JColorChooser.showDialog(null, "Choose a fill color", Color.BLUE);
+                noBorder();
                 myFillButton.setBorder(redBorder);
             }
         });
@@ -107,6 +103,7 @@ public class Paint extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 setShapeID(2);
+                noBorder();
                 myEllipseButton.setBorder(redBorder);
                 DrawingBoard  objDrawOval = new DrawingBoard();
             }
@@ -116,6 +113,7 @@ public class Paint extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 frame.setBackground(Color.black);
+                noBorder();
                 myEraserButton.setBorder(redBorder);
             }
         });
@@ -217,7 +215,16 @@ public class Paint extends JFrame {
         frame.setSize(700, 500);
         frame.setTitle("Sumatra Paint By Vini and Ayman - December 2016");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
+    private static void noBorder()
+    {
+        myEllipseButton.setBorder(noBorder);
+        myLineButton.setBorder(noBorder);
+        myEraserButton.setBorder(noBorder);
+        myFillButton.setBorder(noBorder);
+        myRectangleButton.setBorder(noBorder);
+        myStrokeButton.setBorder(noBorder);
     }
 
     private static void createMenu() {
@@ -247,8 +254,6 @@ public class Paint extends JFrame {
     //paint is not in use currenlty
     public Paint() {
         try {
-
-
             JPanel drawPanel = new JPanel();
             final DrawingBoard drawBoard = new DrawingBoard();
             drawBoard.setSize(300, 300);

@@ -27,9 +27,7 @@ public class DrawingBoard extends JPanel {
 
     public void drawing(){
         repaint();
-
     }
-
 
     public DrawingBoard() {
 
