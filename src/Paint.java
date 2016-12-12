@@ -23,10 +23,11 @@ public class Paint extends JFrame {
     static Color strokeColor = Color.BLACK;
     static Color fillColor = Color.blue;
     static JFrame frame;
-    //static DrawingBoard objDraw=new DrawingBoard();
+    public static int shapeID=0;
+    static final Border redBorder = new LineBorder(Color.RED, 10);
+
 
     public static void main(String[] args) {
-
         frame = new JFrame();
         frame.setVisible(true);
         createAndShowGUI();
@@ -39,26 +40,49 @@ public class Paint extends JFrame {
         objDraw.drawing();
         frame.revalidate();
 
-
     }
+
+
+
+    public static int getShapeID() {
+        return shapeID;
+    }
+
+    public static void setShapeID(int shapeid) {
+        shapeID = shapeid;
+    }
+
+
 
     private static void createAndShowGUI() {
         createFrame();
         createMenu();
         createToolbox();
         frame.revalidate();
+    }
 
+    private static void resetButtonBorders()
+    {
+        // reset all buttons border to original state
     }
 
     private static void addActions() {
 
+        myLineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                setShapeID(0);
+                DrawingBoard objDrawRect = new DrawingBoard();
+                myLineButton.setBorder(redBorder);
+            }
+        });
+
         myRectangleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                DrawRectangle objDrawRect = new DrawRectangle();
-                frame.add(objDrawRect);
-                objDrawRect.drawing();
-                frame.revalidate();
+                setShapeID(1);
+                DrawingBoard objDrawRect = new DrawingBoard();
+                myRectangleButton.setBorder(redBorder);
             }
         });
 
@@ -67,9 +91,7 @@ public class Paint extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.BLACK);
-
-
-
+                myStrokeButton.setBorder(redBorder);
             }
         });
 
@@ -77,37 +99,24 @@ public class Paint extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 fillColor = JColorChooser.showDialog(null, "Choose a fill color", Color.BLUE);
+                myFillButton.setBorder(redBorder);
             }
         });
 
         myEllipseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                DrawOval objDrawOval = new DrawOval();
-                frame.add(objDrawOval);
-                objDrawOval.drawing();
-                frame.revalidate();
+                setShapeID(2);
+                myEllipseButton.setBorder(redBorder);
+                DrawingBoard  objDrawOval = new DrawingBoard();
             }
-
         });
 
         myEraserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
-
-            }
-        });
-
-
-        myLineButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                DrawShape objDrawShape = new DrawShape();
-                frame.add(objDrawShape);
-                objDrawShape.drawing();
-                frame.revalidate();
-
+                frame.setBackground(Color.black);
+                myEraserButton.setBorder(redBorder);
             }
         });
 
@@ -157,9 +166,7 @@ public class Paint extends JFrame {
             }
         });
 
-
     }
-
 
     private static void createToolbox() {
 
@@ -239,17 +246,19 @@ public class Paint extends JFrame {
 
     //paint is not in use currenlty
     public Paint() {
+        try {
 
-        JPanel drawPanel = new JPanel();
-        final DrawingBoard drawBoard = new DrawingBoard();
 
-        drawBoard.setSize(300, 300);
-        drawBoard.setBackground(Color.blue);
-
-        drawBoard.add(drawBoard, BorderLayout.CENTER);
-        System.out.println(drawBoard.getHeight() + " draw board height");
-        this.add(drawPanel, BorderLayout.CENTER);
-
+            JPanel drawPanel = new JPanel();
+            final DrawingBoard drawBoard = new DrawingBoard();
+            drawBoard.setSize(300, 300);
+            drawBoard.setBackground(Color.blue);
+            drawBoard.add(drawBoard, BorderLayout.CENTER);
+            System.out.println(drawBoard.getHeight() + " draw board height");
+            this.add(drawPanel, BorderLayout.CENTER);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 
