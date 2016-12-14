@@ -3,7 +3,7 @@ import java.awt.*;
 
 /**
  * Created by Sumatra on 2016-12-09.
- */
+
 public class DrawOval extends JPanel{
 
     public void drawing(){
@@ -19,3 +19,4 @@ public class DrawOval extends JPanel{
     }
 
 }
+*/

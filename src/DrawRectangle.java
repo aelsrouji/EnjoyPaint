@@ -10,12 +10,13 @@ public class DrawRectangle extends JPanel{
         repaint();
     }
 
-    public void paintComponent(Graphics g)
+  /*  public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
         g.setColor(Color.BLUE);
         g.fillRect(10,20,100,140);
 
     }
+    */
 
 }

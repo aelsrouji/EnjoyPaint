@@ -27,6 +27,10 @@ public class Paint extends JFrame {
     static final Border redBorder = new LineBorder(Color.RED, 10);
     static final Border noBorder = new LineBorder(Color.black, 1);
 
+    private static Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
+    private static Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+
+
     public static void main(String[] args) {
         frame = new JFrame();
         frame.setVisible(true);
@@ -43,7 +47,15 @@ public class Paint extends JFrame {
 
     }
 
+    static public Boolean isFilled =false;
 
+    public static Boolean getIsFilled() {
+        return isFilled;
+    }
+
+    public static void setIsFilled(Boolean isFilled) {
+        Paint.isFilled = isFilled;
+    }
 
     public static int getShapeID() {
         return shapeID;
@@ -66,7 +78,9 @@ public class Paint extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 setShapeID(0);
                 DrawingBoard objDrawRect = new DrawingBoard();
+                noBorder();
                 myLineButton.setBorder(redBorder);
+                frame.setCursor(defaultCursor);
             }
         });
 
@@ -77,6 +91,7 @@ public class Paint extends JFrame {
                 DrawingBoard objDrawRect = new DrawingBoard();
                 noBorder();
                 myRectangleButton.setBorder(redBorder);
+                frame.setCursor(defaultCursor);
             }
         });
 
@@ -87,6 +102,7 @@ public class Paint extends JFrame {
                 strokeColor = JColorChooser.showDialog(null, "Choose a stroke color", Color.BLACK);
                 noBorder();
                 myStrokeButton.setBorder(redBorder);
+                frame.setCursor(defaultCursor);
             }
         });
 
@@ -96,6 +112,7 @@ public class Paint extends JFrame {
                 fillColor = JColorChooser.showDialog(null, "Choose a fill color", Color.BLUE);
                 noBorder();
                 myFillButton.setBorder(redBorder);
+                frame.setCursor(defaultCursor);
             }
         });
 
@@ -106,6 +123,8 @@ public class Paint extends JFrame {
                 noBorder();
                 myEllipseButton.setBorder(redBorder);
                 DrawingBoard  objDrawOval = new DrawingBoard();
+                frame.setCursor(defaultCursor);
+
             }
         });
 
@@ -115,6 +134,8 @@ public class Paint extends JFrame {
                 frame.setBackground(Color.black);
                 noBorder();
                 myEraserButton.setBorder(redBorder);
+                frame.setCursor(handCursor);
+
             }
         });
 

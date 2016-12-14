@@ -8,17 +8,17 @@ public class DrawShape extends JPanel{
 
 
     public void drawing(){
-        repaint();
+       // repaint();
 
     }
 
     public void paintComponent(Graphics g)
-    {
+    {  /*
         super.paintComponent(g);
         g.setColor(Color.RED);
         g.drawLine(10,20,100,140);
 
-        /* switch (shapeID) {
+       switch (shapeID) {
             case 1:
                 g.fillRect(100, 200, 100, 100);
                 break;

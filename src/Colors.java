@@ -1,6 +1,6 @@
 /**
  * Created by Sumatra Group on 12/6/2016.
- */
+
 
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -38,3 +38,4 @@ class Colors {
          } // end class ColorJPanel
 
 }
+*/

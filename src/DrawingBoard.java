@@ -1,3 +1,5 @@
+import sun.java2d.loops.FillRect;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -23,7 +25,8 @@ public class DrawingBoard extends JPanel {
     static Color fillColor = Color.blue;
     static Color strokeColor = Color.BLACK;
 
-    int myShape;
+    private int myShape;
+    private boolean isFilled=false;
 
     public void drawing(){
         repaint();
@@ -44,9 +47,13 @@ public class DrawingBoard extends JPanel {
             public void mouseReleased(MouseEvent mouseEvent) {
                 System.out.println("mouse Released at DrawingBoard");
                 myShape= Paint.getShapeID();
-                if (myShape==1)
+                if (myShape==1 && isFilled==true)
                 {
                     Shape myRect = drawRectangle(startP.x, startP.y, mouseEvent.getX(), mouseEvent.getY());
+                    shapes.add(myRect);
+                }
+                else if (myShape==1 && isFilled==false){
+                    Shape myRect= drawRectangle(startP.x, startP.y, mouseEvent.getX(), mouseEvent.getY());
                     shapes.add(myRect);
                 }
                 else if (myShape==2){
@@ -125,11 +132,18 @@ public class DrawingBoard extends JPanel {
     }
 
     private Rectangle2D.Float drawRectangle(int x1, int y1, int x2, int y2) {
+
         int x = Math.min(x1, x2);
         int y = Math.min(y1, y2);
         int width = Math.abs(x1 - x2);
         int height = Math.abs(y1 - y2);
-        return new Rectangle2D.Float(x, y, width, height);
+        if (isFilled==true)
+        {
+            return new Rectangle2D.Float(x, y, width, height);
+        }
+        else {
+            return new Rectangle2D.Float(x, y, width, height);
+        }
     }
 
     private Ellipse2D.Float drawOval(int x1, int y1, int x2, int y2) {
