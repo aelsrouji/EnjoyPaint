@@ -16,12 +16,13 @@ import static java.awt.Graphics.*;
 public class Paint extends JFrame {
 
     static JButton myRectangleButton, myEllipseButton, myLineButton, myStrokeButton, myFillButton, myEraserButton;
+    static JCheckBox chkIsFilled;
     static JMenuItem openFile;
     static JMenuItem saveFile;
     static JMenuItem saveAs;
     static JMenuItem getOut;
-    static Color strokeColor = Color.BLACK;
-    static Color fillColor = Color.blue;
+    private static Color strokeColor = Color.BLACK;
+    private static Color fillColor = Color.blue;
     static JFrame frame;
     public static int shapeID=0;
     static final Border redBorder = new LineBorder(Color.RED, 10);
@@ -56,6 +57,23 @@ public class Paint extends JFrame {
     public static void setIsFilled(Boolean isFilled) {
         Paint.isFilled = isFilled;
     }
+
+    public static Color getStrokeColor() {
+        return strokeColor;
+    }
+
+    public static void setStrokeColor(Color strokeColor) {
+        Paint.strokeColor = strokeColor;
+    }
+
+    public static Color getFillColor() {
+        return fillColor;
+    }
+
+    public static void setFillColor(Color fillColor) {
+        Paint.fillColor = fillColor;
+    }
+
 
     public static int getShapeID() {
         return shapeID;
@@ -103,6 +121,7 @@ public class Paint extends JFrame {
                 noBorder();
                 myStrokeButton.setBorder(redBorder);
                 frame.setCursor(defaultCursor);
+                setStrokeColor(strokeColor);
             }
         });
 
@@ -113,6 +132,7 @@ public class Paint extends JFrame {
                 noBorder();
                 myFillButton.setBorder(redBorder);
                 frame.setCursor(defaultCursor);
+                setFillColor(fillColor);
             }
         });
 
@@ -136,6 +156,17 @@ public class Paint extends JFrame {
                 myEraserButton.setBorder(redBorder);
                 frame.setCursor(handCursor);
 
+            }
+        });
+
+        chkIsFilled.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (chkIsFilled.isSelected())
+                {
+                    setIsFilled(true);
+                }
+                else{ setIsFilled(false);}
             }
         });
 
@@ -190,6 +221,9 @@ public class Paint extends JFrame {
     private static void createToolbox() {
 
         JPanel toolsPanel = new JPanel();
+
+        chkIsFilled =new JCheckBox("Is Filled");
+
         myRectangleButton = new JButton();
         myRectangleButton.setSize(50, 50);
         ImageIcon imageRectangle = new ImageIcon(".\\Images\\rectangle.png");
@@ -227,6 +261,8 @@ public class Paint extends JFrame {
         myBox.add(myEllipseButton);
         myBox.add(myLineButton);
         myBox.add(myEraserButton);
+        myBox.add(chkIsFilled);
+
         toolsPanel.add(myBox, BorderLayout.SOUTH);
         frame.add(toolsPanel, BorderLayout.EAST);
 
@@ -277,7 +313,7 @@ public class Paint extends JFrame {
         try {
             JPanel drawPanel = new JPanel();
             final DrawingBoard drawBoard = new DrawingBoard();
-            drawBoard.setSize(300, 300);
+            drawBoard.setSize(500, 700);
             drawBoard.setBackground(Color.blue);
             drawBoard.add(drawBoard, BorderLayout.CENTER);
             System.out.println(drawBoard.getHeight() + " draw board height");

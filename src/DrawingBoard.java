@@ -1,5 +1,3 @@
-import sun.java2d.loops.FillRect;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -18,10 +16,10 @@ import java.util.Iterator;
 
 public class DrawingBoard extends JPanel {
 
-    ArrayList<Shape> shapes = new ArrayList<Shape>();
-    ArrayList<Color> fillColors = new ArrayList<Color>();
-    ArrayList<Color> strokeColors = new ArrayList<Color>();
-    Point startP, endP;
+    private ArrayList<Shape> shapes = new ArrayList<Shape>();
+    private ArrayList<Color> fillColors = new ArrayList<Color>();
+    private ArrayList<Color> strokeColors = new ArrayList<Color>();
+    private Point startP, endP;
     static Color fillColor = Color.blue;
     static Color strokeColor = Color.BLACK;
 
@@ -37,7 +35,7 @@ public class DrawingBoard extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-                System.out.println("mousePressed at DrawingBoard");
+
                 startP = new Point(mouseEvent.getX(), mouseEvent.getY());
                 endP = startP;
                 repaint();
@@ -45,14 +43,13 @@ public class DrawingBoard extends JPanel {
 
             @Override
             public void mouseReleased(MouseEvent mouseEvent) {
-                System.out.println("mouse Released at DrawingBoard");
+
+
                 myShape= Paint.getShapeID();
-                if (myShape==1 && isFilled==true)
+                isFilled = Paint.getIsFilled();
+
+                if (myShape==1)
                 {
-                    Shape myRect = drawRectangle(startP.x, startP.y, mouseEvent.getX(), mouseEvent.getY());
-                    shapes.add(myRect);
-                }
-                else if (myShape==1 && isFilled==false){
                     Shape myRect= drawRectangle(startP.x, startP.y, mouseEvent.getX(), mouseEvent.getY());
                     shapes.add(myRect);
                 }
@@ -79,7 +76,6 @@ public class DrawingBoard extends JPanel {
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                System.out.println("mousedragged at DrawingBoard");
                 endP = new Point(e.getX(), e.getY());
                 repaint();
             }
@@ -99,18 +95,34 @@ public class DrawingBoard extends JPanel {
             graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
             for (Shape s : shapes) {
-                 //  graphSettings.setPaint(strokeCounters.next());
+                 //graphSettings.setPaint(strokeCounters.next());
+                //graphSettings.setPaint(strokeColors.iterator().next());
+                graphSettings.setColor(Paint.getStrokeColor());
+                graphSettings.setBackground(Paint.getFillColor());
+
+
+                if (isFilled==false) {
                     graphSettings.draw(s);
-                   // graphSettings.setPaint(fillCounters.next());
+                }
+                else
+                {
                     graphSettings.fill(s);
+                }
+                //graphSettings.setPaint(fillCounters.next());
+                //graphSettings.setPaint(fillColors.iterator().next());
             }
 
             if (startP != null && endP != null) {
                 graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
-                graphSettings.setPaint(Color.GREEN);
 
-                if(myShape==1)
+                if(myShape==1 && isFilled==true) {
+                    ((Graphics2D) g).setPaint(Color.red);
+                    g.fillRect(startP.x, startP.y, endP.x, endP.y);
+                }
+                    else if (myShape == 1 && isFilled == false)
                 {
+                    ((Graphics2D) g).setPaint(Color.red);
+                    ((Graphics2D) g).fill(new Rectangle2D.Double(startP.x, startP.y, endP.x, endP.y));
                     Shape xShape = drawRectangle(startP.x, startP.y, endP.x, endP.y);
                 }
                 else if (myShape==2) {
@@ -118,9 +130,7 @@ public class DrawingBoard extends JPanel {
                 }
                 else
                 {
-                    System.out.println("Shpe not selected, using line");
-                    DrawShape drawShape = new DrawShape();
-                    drawShape.drawing();
+
                 }
             }
         }
@@ -137,13 +147,8 @@ public class DrawingBoard extends JPanel {
         int y = Math.min(y1, y2);
         int width = Math.abs(x1 - x2);
         int height = Math.abs(y1 - y2);
-        if (isFilled==true)
-        {
-            return new Rectangle2D.Float(x, y, width, height);
-        }
-        else {
-            return new Rectangle2D.Float(x, y, width, height);
-        }
+        return new Rectangle2D.Float(x, y, width, height);
+
     }
 
     private Ellipse2D.Float drawOval(int x1, int y1, int x2, int y2) {
@@ -157,7 +162,6 @@ public class DrawingBoard extends JPanel {
 
     private Line2D.Float drawLine(int x1, int y1, int x2, int y2) {
         return new Line2D.Float(x1,y1,x2,y2);
-
 
     }
 
