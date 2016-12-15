@@ -95,12 +95,16 @@ public class DrawingBoard extends JPanel {
             graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
             for (Shape s : shapes) {
-                 //graphSettings.setPaint(strokeCounters.next());
-                //graphSettings.setPaint(strokeColors.iterator().next());
-                graphSettings.setColor(Paint.getStrokeColor());
-                graphSettings.setBackground(Paint.getFillColor());
+                 //graphSettings.setPaint(strokeCounters.next()); // an issue here
+                //graphSettings.setPaint(strokeColors.iterator().next()); // issue here
 
-
+                if (Paint.getIsErasing()==true)
+                {
+                    graphSettings.setColor(Color.white);
+                }
+                else {
+                    graphSettings.setColor(Paint.getFillColor());
+                }
                 if (isFilled==false) {
                     graphSettings.draw(s);
                 }
@@ -108,20 +112,19 @@ public class DrawingBoard extends JPanel {
                 {
                     graphSettings.fill(s);
                 }
-                //graphSettings.setPaint(fillCounters.next());
-                //graphSettings.setPaint(fillColors.iterator().next());
+
             }
 
             if (startP != null && endP != null) {
                 graphSettings.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
 
                 if(myShape==1 && isFilled==true) {
-                    ((Graphics2D) g).setPaint(Color.red);
+                   // ((Graphics2D) g).setPaint(Color.red);
                     g.fillRect(startP.x, startP.y, endP.x, endP.y);
                 }
                     else if (myShape == 1 && isFilled == false)
                 {
-                    ((Graphics2D) g).setPaint(Color.red);
+                   // ((Graphics2D) g).setPaint(Color.red);
                     ((Graphics2D) g).fill(new Rectangle2D.Double(startP.x, startP.y, endP.x, endP.y));
                     Shape xShape = drawRectangle(startP.x, startP.y, endP.x, endP.y);
                 }
@@ -164,6 +167,8 @@ public class DrawingBoard extends JPanel {
         return new Line2D.Float(x1,y1,x2,y2);
 
     }
+
+
 
 }
 
